@@ -28,7 +28,7 @@ This Ansible role isn't entirely finished, here some ideas to improve it :
 This role works only on Debian, the configuration for rocky linux doesn't work yet.
 
 ### Ansible roles
-Create two distincts roles : one for Debian systems, one for RedHat to avoid when conditions everywhere.
+Create two distincts roles : one for Debian systems, one for RedHat to avoid `when` conditions everywhere.
 
 Examples : 
   - wordpress-debian
