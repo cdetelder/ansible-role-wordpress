@@ -59,17 +59,15 @@
     shell: mysqld_safe --datadir=/var/lib/mysql && sleep 10
     when: ansible_facts['os_family'] == "RedHat"
 
-  - name: Check if HTTPD is running with netstat
+  - name: Check if HTTPD is running with netstat on RedHAT
     shell: netstat -tlnup | grep httpd
     register: httpd_listening
     ignore_errors: true
+    when: ansible_facts['os_family'] == "RedHat"
+
 
   - name: Start HTTPD on RedHat Family
-    shell: "/usr/sbin/httpd -DFOREGROUND &"
-    args:
-      executable: /bin/bash
-    async: 0
-    poll: 0
+    shell: /usr/sbin/httpd -DFOREGROUND
     when: (httpd_listening.rc != 0) and (ansible_facts['os_family'] == "RedHat")
 
   - name: Delete apache default page
