@@ -107,7 +107,7 @@
       path: /var/www/html
       owner: www-data
       group: www-data
-      mode: 755
+      mode: 0755
       recurse: true
 
   - name: Copy wpconfig.php
@@ -125,14 +125,32 @@
       path: /var/www/html/wordpress/wp-config.php
       owner: www-data
       group: www-data
-      mode: 640
+      mode: 0640
 
   - name: Create empty file to cofngiure apache2
     file:
       path: /etc/apache2/sites-available/wordpress.conf
       state: touch
 
-  - name: Configure apache2
-    script:
-      cmd: ../files/config-apache2.sh
+  - name: Deploy Apache2 configuration for Wordpress
+    copy:
+        src: ../files/config-apache2.sh
+        dest: /etc/apache2/sites-available/wordpress.conf
+        owner: root
+        group: root
 
+  - name: Enable apache2 site
+    shell: |
+      a2ensite wordpress.conf 
+      a2enmod rewrite
+    args: 
+      chdir: /etc/apache2/sites-available
+      
+  - name: Reload apache2 service on Debian Family
+    service:
+      name: "apache2"
+      state: reloaded
+  
+  - name: Print Wordpress url
+    debug:
+      msg: "Wordpress website is available http://localhost"
