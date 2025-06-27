@@ -103,3 +103,10 @@
       remote_src: yes
 
   - name: Set permissions on html folder
+    file: 
+      path: /var/www/html
+      owner: www-data
+      group: www-data
+      mode: 755
+      recurse: true
+
