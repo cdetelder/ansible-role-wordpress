@@ -120,4 +120,19 @@
     script:
       cmd: ../files/config-wpconfig.sh
 
+  - name: Set wp-config.php permissions
+    file:
+      path: /var/www/html/wordpress/wp-config.php
+      owner: www-data
+      group: www-data
+      mode: 640
+
+  - name: Create empty file to cofngiure apache2
+    file:
+      path: /etc/apache2/sites-available/wordpress.conf
+      state: touch
+
+  - name: Configure apache2
+    script:
+      cmd: ../files/config-apache2.sh
 
