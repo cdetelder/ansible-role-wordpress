@@ -81,4 +81,4 @@ show tables from wordpress;
 Author Information
 ------------------
 
-Camille DETELDER - M1 DO A
+Camille DETELDER - M1 DO A.
