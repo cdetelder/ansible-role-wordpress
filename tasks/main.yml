@@ -54,6 +54,7 @@
       - mariadb
     when: ansible_facts['os_family'] == "Debian"
 
+
   - name: Start MariaDB on RedHat Family
     shell: mysqld_safe --datadir=/var/lib/mysql && sleep 10
     when: ansible_facts['os_family'] == "RedHat"
@@ -90,6 +91,8 @@
       'example'@'localhost';" 
       mysql -uroot -pexamplerootPW -e "FLUSH PRIVILEGES;" 
     when: not stat_result.stat.exists
+    # notify: 
+    #  - Reload MariaDB on Debian Family
 
   - name: Download Wordpress
     get_url: 
@@ -127,7 +130,7 @@
       group: www-data
       mode: 0640
 
-  - name: Create empty file to cofngiure apache2
+  - name: Create empty file to configure apache2
     file:
       path: /etc/apache2/sites-available/wordpress.conf
       state: touch
@@ -138,6 +141,8 @@
         dest: /etc/apache2/sites-available/wordpress.conf
         owner: root
         group: root
+    notify:
+      - Reload apache2 service on Debian Family
 
   - name: Enable apache2 site
     shell: |
@@ -145,12 +150,11 @@
       a2enmod rewrite
     args: 
       chdir: /etc/apache2/sites-available
+    notify: 
+      - Reload apache2 service on Debian Family
       
-  - name: Reload apache2 service on Debian Family
-    service:
-      name: "apache2"
-      state: reloaded
-  
   - name: Print Wordpress url
     debug:
       msg: "Wordpress website is available http://localhost"
+
+

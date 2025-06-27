@@ -1,3 +1,11 @@
-#SPDX-License-Identifier: MIT-0
 ---
-# handlers file for ansible-role-wordpress
+
+  - name: Reload apache2 service on Debian Family
+    service:
+      name: "apache2"
+      state: reloaded
+
+  - name: Reload MariaDB on Debian Family
+    service:
+      name: "mariadb"
+      state: reloaded
