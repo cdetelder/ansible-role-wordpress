@@ -54,3 +54,45 @@
       - mariadb
     when: ansible_facts['os_family'] == "Debian"
 
+  - name: Start MariaDB on RedHat Family
+    shell: mysqld_safe --datadir=/var/lib/mysql && sleep 10
+    when: ansible_facts['os_family'] == "RedHat"
+
+  # - name: Start HTTPD on RedHat Family
+  #   shell: /usr/sbin/httpd -DFOREGROUND 
+  #   when: ansible_facts['os_family'] == "RedHat"
+
+  - name: Delete apache default page
+    file:
+      path: /var/www/html/index.html 
+      state: absent
+
+  - name: Secure MariaDB configuration
+    shell: |
+      mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'examplerootPW';" 
+      mysql -uroot -pexamplerootPW -e "DELETE FROM mysql.user WHERE User='';" 
+      mysql -uroot -pexamplerootPW -e "DROP DATABASE IF EXISTS test;" 
+      mysql -uroot -pexamplerootPW -e "DELETE FROM mysql.db WHERE Db='test' OR 
+      Db='test\\_%';" 
+      mysql -uroot -pexamplerootPW -e "FLUSH PRIVILEGES;" 
+
+  - name: Check if database already exists
+    community.mysql.mysql_db:
+      name: wordpress
+      state: present
+    register: database_exists
+
+  - name: Create Wordpress DATABASE
+    shell: |
+      mysql -uroot -pexamplerootPW -e "CREATE DATABASE wordpress;" 
+      mysql -uroot -pexamplerootPW -e "CREATE USER 'example'@'localhost' 
+      IDENTIFIED BY 'examplePW';" 
+      mysql -uroot -pexamplerootPW -e "GRANT ALL PRIVILEGES ON wordpress.* TO 
+      'example'@'localhost';" 
+      mysql -uroot -pexamplerootPW -e "FLUSH PRIVILEGES;" 
+    when: database_exists.changed
+
+  - name: Download Wordpress
+    get_url: 
+      url: https://wordpress.org/latest.zip
+      dest: /tmp

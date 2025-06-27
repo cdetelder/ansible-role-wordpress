@@ -8,10 +8,16 @@ How to use this role?
 
 Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
-Role Variables
+Troubleshooting
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+If there is a problem with de database, connect and verify that the database and its tables exist.
+
+```bash 
+mysql -uroot -pexamplerootPW
+show databases;
+show tables from wordpress;
+```
 
 Dependencies
 ------------
@@ -22,7 +28,7 @@ Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-```
+```yaml
 ---
 
 - name: Deploy wordpress site
@@ -35,12 +41,14 @@ Including an example of how to use your role (for instance, with variables passe
 Proposition
 -------
 
-Create two distincts roles : one for Debian systems, one for RedHat to avoid when conditions everywhere.
+- Create two distincts roles : one for Debian systems, one for RedHat to avoid when conditions everywhere.
 Examples : 
-- wordpress-debian
-- wordpress-redhat
+  - wordpress-debian
+  - wordpress-redhat
+
+- Remove database secrets 
 
 Author Information
 ------------------
 
-Camille DETELDER
+Camille DETELDER - M1 DO A
