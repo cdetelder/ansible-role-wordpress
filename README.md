@@ -6,8 +6,12 @@ This role installs and configures Wordpress web site with a MariaDB database.
 How to use this role?
 ----------------
 Install from ansible galaxy :
+```bash
+ansible-galaxy role install cdetelder.ansible-role-wordpress
+```
 
-Call it in a playbook :
+Call it in a playbook : 
+
 
 ```yaml
 ---
