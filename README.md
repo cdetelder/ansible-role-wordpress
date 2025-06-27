@@ -22,17 +22,25 @@ Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```
+---
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- name: Deploy wordpress site
+  hosts: all 
 
-License
+  roles:
+    - ansible-role-wordpress
+```
+
+Proposition
 -------
 
-BSD
+Create two distincts roles : one for Debian systems, one for RedHat to avoid when conditions everywhere.
+Examples : 
+- wordpress-debian
+- wordpress-redhat
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Camille DETELDER
