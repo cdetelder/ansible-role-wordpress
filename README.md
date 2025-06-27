@@ -4,14 +4,11 @@ ansible-role-wordpress
 This role installs and configures Wordpress web site with a MariaDB database. 
 
 How to use this role?
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
-Example Playbook
 ----------------
+Install from ansible galaxy :
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Call it in a playbook :
+
 ```yaml
 ---
 
@@ -21,8 +18,6 @@ Including an example of how to use your role (for instance, with variables passe
   roles:
     - ansible-role-wordpress
 ```
-
-
 
 Axis of improvement
 -------
